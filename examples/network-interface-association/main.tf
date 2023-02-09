@@ -1,12 +1,11 @@
-data "azurerm_subnet" "subnet" {
-  resource_group_name  = "hmcts-rg"
-  virtual_network_name = "hmcts-vnet"
-  name                 = "hmcts-snet"
+data "azurerm_network_interface" "nic_01" {
+  resource_group_name = "hmcts-rg"
+  name                = "nic-01"
 }
 
-data "azurerm_network_interface" "nic" {
+data "azurerm_network_interface" "nic_02" {
   resource_group_name = "hmcts-rg"
-  name                = "hmcts-nic"
+  name                = "nic-02"
 }
 
 module "nsg" {
@@ -16,8 +15,7 @@ module "nsg" {
   resource_group_name         = "hmcts-rg"
   location                    = "uksouth"
 
-  subnet_ids            = [data.azurerm_subnet.subnet.id]
-  network_interface_ids = [data.azurerm_network_interface.nic.id]
+  network_interface_ids = [data.azurerm_network_interface.nic_01.id, data.azurerm_network_interface.nic_02.id]
 
   custom_rules = [
     {
