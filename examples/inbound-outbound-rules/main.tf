@@ -1,5 +1,5 @@
 module "nsg" {
-  source = "../"
+  source = "git::https://github.com/hmcts/terraform-module-network-security-group.git?ref=v1.0.0"
 
   network_security_group_name = "hmcts-nsg"
   resource_group_name         = "hmcts-rg"
