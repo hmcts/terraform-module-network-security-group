@@ -1,5 +1,5 @@
 # Terraform Network Security Group Module
-This module creates a new Network Security Group with two predefined rules that blocks all traffic from Virtual Network and AzureLoadBalancer, forcing the user to add custom rules for all required traffic. The Module also supports attaching the Network Security Group to multiple Subnets or Network Interfaces if required.
+This module creates a new Network Security Group with two predefined rules that blocks all traffic from Virtual Network and AzureLoadBalancer, forcing the user to add custom rules for all required traffic. The Module also supports attaching the Network Security Group to multiple Subnets and Network Interfaces if required.
 
 # Examples
 Examples can be found [here](https://github.com/hmcts/terraform-module-network-security-group/tree/master/examples).
