@@ -1,16 +1,34 @@
 variable "network_security_group_name" {
-  description = "name given to new network security group"
+  description = "[REQUIRED] - name given to new network security group"
   type        = string
 }
 
 variable "resource_group_name" {
-  description = "parent resource group of network security group inside"
+  description = "[REQUIRED] - parent resource group of network security group inside"
   type        = string
 }
 
 variable "location" {
-  description = "azure location to place network security group"
+  description = "[REQUIRED] - azure location to place network security group"
   type        = string
+}
+
+variable "tags" {
+  description = "tags"
+  type        = map(any)
+  default     = {}
+}
+
+variable "subnet_ids" {
+  description = "list of subnet ids to attach to network security group"
+  type        = list(string)
+  default     = []
+}
+
+variable "network_interface_ids" {
+  description = "list of network interface ids to attach to network security group"
+  type        = list(string)
+  default     = []
 }
 
 variable "custom_rules" {
@@ -32,22 +50,40 @@ variable "custom_rules" {
     source_port_ranges           = optional(list(string))
   }))
   default = []
-}
 
-variable "tags" {
-  description = "tags"
-  type        = map(any)
-  default     = {}
-}
+  validation {
+    error_message = "One of destination_address_prefix OR destination_address_prefixes must be entered"
+    condition = (
+      alltrue([for rule in var.custom_rules : (
+        rule.destination_address_prefix != null || rule.destination_address_prefixes != null
+      )])
+    )
+  }
 
-variable "subnet_ids" {
-  description = "list of subnet ids to attach to network security group"
-  type        = list(string)
-  default     = []
-}
+  validation {
+    error_message = "One of destination_port_range OR destination_port_ranges must be entered"
+    condition = (
+      alltrue([for rule in var.custom_rules : (
+        rule.destination_port_range != null || rule.destination_port_ranges != null
+      )])
+    )
+  }
 
-variable "network_interface_ids" {
-  description = "list of network interface ids to attach to network security group"
-  type        = list(string)
-  default     = []
+  validation {
+    error_message = "One of source_address_prefix OR source_address_prefixes must be entered"
+    condition = (
+      alltrue([for rule in var.custom_rules : (
+        rule.source_address_prefix != null || rule.source_address_prefixes != null
+      )])
+    )
+  }
+
+  validation {
+    error_message = "One of source_port_range OR source_port_ranges must be entered"
+    condition = (
+      alltrue([for rule in var.custom_rules : (
+        rule.source_port_range != null || rule.source_port_ranges != null
+      )])
+    )
+  }
 }
