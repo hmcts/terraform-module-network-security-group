@@ -54,9 +54,9 @@ variable "custom_rules" {
   validation {
     error_message = "Network Security Name can not contain a space"
     condition = (
-      !can([for rule in var.custom_rules : (
-        regex(" ", rule.name)
-      )])
+      alltrue([for rule in var.custom_rules : 
+        !can(regex(" ", rule.name))
+      ])
     )
   }
 
