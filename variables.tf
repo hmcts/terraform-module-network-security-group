@@ -52,6 +52,15 @@ variable "custom_rules" {
   default = []
 
   validation {
+    error_message = "Network Security Name can not contain a space"
+    condition = (
+      !can([for rule in var.custom_rules : (
+        regex(" ", rule.name)
+      )])
+    )
+  }
+
+  validation {
     error_message = "One of destination_address_prefix OR destination_address_prefixes must be entered"
     condition = (
       alltrue([for rule in var.custom_rules : (
