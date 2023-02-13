@@ -19,22 +19,16 @@ variable "tags" {
   default     = {}
 }
 
-variable "subnets" {
-  description = "list of maps with subnet names & ids to attach to nsg, NOTE: the name is required due to issue https://github.com/hashicorp/terraform/issues/29957"
-  type = list(object({
-    name = string
-    id   = string
-  }))
-  default = []
+variable "subnet_ids" {
+  description = "a map with subnet names (key) & ids (value) to attach to nsg, NOTE: the name is required due to the requirement of setting a known value for the resource key when using for_each https://github.com/hashicorp/terraform/issues/29957"
+  type        = map(string)
+  default     = {}
 }
 
-variable "network_interfaces" {
-  description = "list of maps with network interface names & ids to attach to nsg, NOTE: the name is required due to issue https://github.com/hashicorp/terraform/issues/29957"
-  type = list(object({
-    name = string
-    id   = string
-  }))
-  default = []
+variable "network_interface_ids" {
+  description = "a map with network interface names (key) & ids (value) to attach to nsg, NOTE: the name is required due to the requirement of setting a known value for the resource key when using for_each https://github.com/hashicorp/terraform/issues/29957"
+  type        = map(string)
+  default     = {}
 }
 
 variable "custom_rules" {
