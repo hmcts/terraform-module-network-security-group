@@ -17,7 +17,16 @@ module "nsg" {
   resource_group_name         = "hmcts-rg"
   location                    = "uksouth"
 
-  subnet_ids = [data.azurerm_subnet.subnet_01.id, data.azurerm_subnet.subnet_02.id]
+  subnets = [
+    {
+      name = data.azurerm_subnet.subnet_01.name
+      id   = data.azurerm_subnet.subnet_01.id
+    },
+    {
+      name = data.azurerm_subnet.subnet_02.name
+      id   = data.azurerm_subnet.subnet_02.id
+    }
+  ]
 
   custom_rules = [
     {

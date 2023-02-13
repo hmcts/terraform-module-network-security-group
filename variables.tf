@@ -19,16 +19,22 @@ variable "tags" {
   default     = {}
 }
 
-variable "subnet_ids" {
-  description = "list of subnet ids to attach to network security group"
-  type        = list(string)
-  default     = []
+variable "subnets" {
+  description = "list of maps with subnet names & subnet ids to attach to nsg"
+  type = list(object({
+    name = string
+    id   = string
+  }))
+  default = []
 }
 
-variable "network_interface_ids" {
-  description = "list of network interface ids to attach to network security group"
-  type        = list(string)
-  default     = []
+variable "network_interfaces" {
+  description = "list of maps with network interface names & ids to attach to nsg"
+  type = list(object({
+    name = string
+    id   = string
+  }))
+  default = []
 }
 
 variable "custom_rules" {
@@ -54,7 +60,7 @@ variable "custom_rules" {
   validation {
     error_message = "Network Security Name can not contain a space"
     condition = (
-      alltrue([for rule in var.custom_rules : 
+      alltrue([for rule in var.custom_rules :
         !can(regex(" ", rule.name))
       ])
     )

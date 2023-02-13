@@ -8,7 +8,7 @@ Examples can be found [here](https://github.com/hmcts/terraform-module-network-s
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.2 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.3 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | >=3.10.0, < 4.0 |
 
 ## Providers
@@ -37,11 +37,11 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_custom_rules"></a> [custom\_rules](#input\_custom\_rules) | list of maps for custom rules | <pre>list(object({<br>    access                       = optional(string)<br>    description                  = optional(string)<br>    destination_address_prefix   = optional(string)<br>    destination_address_prefixes = optional(list(string))<br>    destination_port_ranges      = optional(list(string))<br>    destination_port_range       = optional(string)<br>    direction                    = optional(string)<br>    name                         = string<br>    priority                     = number<br>    protocol                     = optional(string)<br>    source_address_prefix        = optional(string)<br>    source_address_prefixes      = optional(list(string))<br>    source_port_range            = optional(string)<br>    source_port_ranges           = optional(list(string))<br>  }))</pre> | `[]` | no |
-| <a name="input_location"></a> [location](#input\_location) | azure location to place network security group | `string` | n/a | yes |
-| <a name="input_network_interface_ids"></a> [network\_interface\_ids](#input\_network\_interface\_ids) | list of network interface ids to attach to network security group | `list(string)` | `[]` | no |
-| <a name="input_network_security_group_name"></a> [network\_security\_group\_name](#input\_network\_security\_group\_name) | name given to new network security group | `string` | n/a | yes |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | parent resource group of network security group inside | `string` | n/a | yes |
-| <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | list of subnet ids to attach to network security group | `list(string)` | `[]` | no |
+| <a name="input_location"></a> [location](#input\_location) | [REQUIRED] - azure location to place network security group | `string` | n/a | yes |
+| <a name="input_network_interfaces"></a> [network\_interfaces](#input\_network\_interfaces) | list of maps with network interface names & ids to attach to nsg | <pre>list(object({<br>    name = string<br>    id   = string<br>  }))</pre> | `[]` | no |
+| <a name="input_network_security_group_name"></a> [network\_security\_group\_name](#input\_network\_security\_group\_name) | [REQUIRED] - name given to new network security group | `string` | n/a | yes |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | [REQUIRED] - parent resource group of network security group inside | `string` | n/a | yes |
+| <a name="input_subnets"></a> [subnets](#input\_subnets) | list of maps with subnet names & subnet ids to attach to nsg | <pre>list(object({<br>    name = string<br>    id   = string<br>  }))</pre> | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | tags | `map(any)` | `{}` | no |
 
 ## Outputs

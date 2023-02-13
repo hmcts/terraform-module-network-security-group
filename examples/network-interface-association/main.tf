@@ -15,7 +15,16 @@ module "nsg" {
   resource_group_name         = "hmcts-rg"
   location                    = "uksouth"
 
-  network_interface_ids = [data.azurerm_network_interface.nic_01.id, data.azurerm_network_interface.nic_02.id]
+  network_interfaces = [
+    {
+      name = data.azurerm_network_interface.nic_01.name
+      id   = data.azurerm_network_interface.nic_01.id
+    },
+    {
+      name = data.azurerm_network_interface.nic_02.name
+      id   = data.azurerm_network_interface.nic_02.id
+    }
+  ]
 
   custom_rules = [
     {
