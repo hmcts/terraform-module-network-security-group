@@ -1,4 +1,4 @@
-data "azurerm_subnet" "subnet_02" {
+data "azurerm_subnet" "subnet_01" {
   resource_group_name  = "hmcts-rg"
   virtual_network_name = "hmcts-vnet"
   name                 = "hmcts-snet-01"
