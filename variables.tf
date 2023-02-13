@@ -20,7 +20,7 @@ variable "tags" {
 }
 
 variable "subnets" {
-  description = "list of maps with subnet names & subnet ids to attach to nsg"
+  description = "list of maps with subnet names & ids to attach to nsg, NOTE: the name is required due to issue https://github.com/hashicorp/terraform/issues/29957"
   type = list(object({
     name = string
     id   = string
@@ -29,7 +29,7 @@ variable "subnets" {
 }
 
 variable "network_interfaces" {
-  description = "list of maps with network interface names & ids to attach to nsg"
+  description = "list of maps with network interface names & ids to attach to nsg, NOTE: the name is required due to issue https://github.com/hashicorp/terraform/issues/29957"
   type = list(object({
     name = string
     id   = string
