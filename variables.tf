@@ -20,15 +20,15 @@ variable "tags" {
 }
 
 variable "subnet_ids" {
-  description = "list of subnet ids to attach to network security group"
-  type        = list(string)
-  default     = []
+  description = "a map with subnet names (key) & ids (value) to attach to nsg, NOTE: the name is required due to the requirement of setting a known value for the resource key when using for_each https://github.com/hashicorp/terraform/issues/29957"
+  type        = map(string)
+  default     = {}
 }
 
 variable "network_interface_ids" {
-  description = "list of network interface ids to attach to network security group"
-  type        = list(string)
-  default     = []
+  description = "a map with network interface names (key) & ids (value) to attach to nsg, NOTE: the name is required due to the requirement of setting a known value for the resource key when using for_each https://github.com/hashicorp/terraform/issues/29957"
+  type        = map(string)
+  default     = {}
 }
 
 variable "custom_rules" {
@@ -50,6 +50,15 @@ variable "custom_rules" {
     source_port_ranges           = optional(list(string))
   }))
   default = []
+
+  validation {
+    error_message = "Network Security Name can not contain a space"
+    condition = (
+      alltrue([for rule in var.custom_rules :
+        !can(regex(" ", rule.name))
+      ])
+    )
+  }
 
   validation {
     error_message = "One of destination_address_prefix OR destination_address_prefixes must be entered"

@@ -1,15 +1,4 @@
 #####################################################################
-# Create NSG ########################################################
-#####################################################################
-
-resource "azurerm_network_security_group" "network_security_group" {
-  name                = var.network_security_group_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  tags                = var.tags
-}
-
-#####################################################################
 # Add Blocking Rules. ###############################################
 #####################################################################
 
@@ -65,20 +54,4 @@ resource "azurerm_network_security_rule" "custom_rules" {
   source_address_prefixes      = try(each.value.source_address_prefixes, null)
   source_port_range            = try(each.value.source_port_range, null)
   source_port_ranges           = try(each.value.source_port_ranges, null)
-}
-
-#####################################################################
-# Attach TO Subnet & NICS. ##########################################
-#####################################################################
-
-resource "azurerm_subnet_network_security_group_association" "subnet_association" {
-  for_each                  = { for subnet in var.subnet_ids : "${split("/", subnet)[10]}" => subnet }
-  subnet_id                 = each.value
-  network_security_group_id = azurerm_network_security_group.network_security_group.id
-}
-
-resource "azurerm_network_interface_security_group_association" "network_interface_association" {
-  for_each                  = { for nic in var.network_interface_ids : "${split("/", nic)[8]}" => nic }
-  network_interface_id      = each.value
-  network_security_group_id = azurerm_network_security_group.network_security_group.id
 }
