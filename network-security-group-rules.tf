@@ -3,6 +3,7 @@
 #####################################################################
 
 resource "azurerm_network_security_rule" "DenyAzureLoadBalancerInbound" {
+  count                       = var.use_default_rules ? 0 : 1
   access                      = "Deny"
   description                 = "Deny Traffic from Azure Load Balancer"
   destination_address_prefix  = "*"
@@ -18,6 +19,7 @@ resource "azurerm_network_security_rule" "DenyAzureLoadBalancerInbound" {
 }
 
 resource "azurerm_network_security_rule" "DenyVirtualNetworkInbound" {
+  count                       = var.use_default_rules ? 0 : 1
   access                      = "Deny"
   description                 = "Deny Traffic from Virtual Network"
   destination_address_prefix  = "*"

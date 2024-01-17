@@ -31,6 +31,10 @@ variable "network_interface_ids" {
   default     = {}
 }
 
+variable "use_default_rules" {
+  default     = false
+}
+
 variable "custom_rules" {
   description = "list of maps for custom rules"
   type = list(object({
